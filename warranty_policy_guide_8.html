@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>워런티 정책 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --text:#191D2B;
+    --text-muted:#5B6478;
+    --text-faint:#8996AC;
+    --card-bg:#FFFFFF;
+    --card-border:#DCE6F2;
+    --sans:'Noto Sans KR','Inter',sans-serif;
+    --en:'Inter',sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    font-family:var(--sans);
+    color:var(--text);
+    min-height:100vh;
+    background:
+      linear-gradient(135deg, #EAF3FC 0%, #D3E7F9 45%, #B9D9F4 100%);
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:repeating-linear-gradient(
+      100deg, rgba(255,255,255,0.35) 0px, rgba(255,255,255,0.35) 2px,
+      transparent 2px, transparent 90px
+    );
+    opacity:0.5;
+    pointer-events:none;
+  }
+  .wrap{
+    position:relative;
+    max-width:1120px;
+    margin:0 auto;
+    padding:44px 28px 90px;
+  }
+  :focus-visible{ outline:2px solid #1D3F94; outline-offset:3px; }
+
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-bottom:34px;
+  }
+  .brand{
+    font-family:var(--en);
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.02em;
+    color:#1D3F94;
+  }
+  .brand span{ display:block; font-size:10px; font-weight:500; letter-spacing:0.14em; color:var(--text-muted); margin-top:2px;}
+  h1{
+    font-size:36px;
+    font-weight:900;
+    letter-spacing:0.05em;
+  }
+  .subtitle{
+    font-family:var(--en);
+    font-style:italic;
+    font-weight:600;
+    color:#2251C7;
+    font-size:16px;
+    margin-top:4px;
+  }
+
+  .crumbs{
+    display:flex; align-items:center; gap:8px;
+    font-size:13px; color:var(--text-muted);
+    margin-bottom:20px; min-height:20px;
+  }
+  .crumbs button{
+    background:none; border:none; color:#2251C7; font-family:var(--sans);
+    font-size:13px; cursor:pointer; text-decoration:underline; text-underline-offset:3px;
+  }
+  .crumbs .sep{ color:var(--text-faint); }
+  .crumbs .current{ color:var(--text); font-weight:600; }
+
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  /* ---- home grid ---- */
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px 24px;
+  }
+  @media (max-width:820px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .cat-grid{ grid-template-columns:1fr; } }
+
+  .cat-card{
+    background:var(--card-bg);
+    border:1.5px solid var(--card-border);
+    border-left:6px solid var(--accent, #1D3F94);
+    border-radius:6px;
+    padding:22px 22px 18px;
+    text-align:left;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    box-shadow:0 1px 2px rgba(20,40,80,0.04);
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  .cat-card:hover, .cat-card:focus-visible{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(20,50,100,0.14);
+  }
+  .cat-badge{
+    width:52px; height:52px;
+    border-radius:8px;
+    background:var(--accent, #1D3F94);
+    color:#fff;
+    font-family:var(--en);
+    font-weight:700;
+    font-size:19px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cat-name{ font-size:18px; font-weight:700; }
+  .cat-tag{
+    font-family:var(--en);
+    font-style:italic;
+    font-size:13px;
+    color:#2251C7;
+  }
+
+  /* ---- items view (topic list, currently 1:1 with categories but kept for future sub-items) ---- */
+  .back-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:#fff; border:1px solid var(--card-border); border-radius:5px;
+    color:var(--text-muted); font-family:var(--sans); font-size:13px;
+    padding:8px 14px; cursor:pointer; margin-bottom:22px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .back-btn:hover{ border-color:#2251C7; color:#2251C7; }
+
+  .detail-card{
+    background:var(--card-bg);
+    border:1.5px solid var(--card-border);
+    border-top:6px solid var(--accent, #1D3F94);
+    border-radius:8px;
+    padding:32px;
+    max-width:760px;
+  }
+  .detail-badge-row{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .detail-badge{
+    width:44px; height:44px; border-radius:8px;
+    background:var(--accent, #1D3F94); color:#fff;
+    font-family:var(--en); font-weight:700; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .detail-title{ font-size:24px; font-weight:900; }
+  .detail-tag{ font-family:var(--en); font-style:italic; color:#2251C7; font-size:14px; margin-top:2px; }
+
+  .doc-box{
+    aspect-ratio:16/9;
+    background:#F3F7FC;
+    border:1.5px dashed #C6D6EA;
+    border-radius:6px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:6px;
+    margin:22px 0;
+    overflow:hidden;
+  }
+  .doc-box img{ width:100%; height:100%; object-fit:contain; background:#fff; }
+  .doc-box-text{ font-size:12.5px; color:var(--text-faint); text-align:center; padding:0 20px; }
+
+  .block{ margin-bottom:20px; }
+  .block:last-child{ margin-bottom:0; }
+  .block-label{
+    font-size:12.5px; font-weight:700; letter-spacing:0.04em;
+    color:var(--accent, #1D3F94); text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .block-text{
+    font-size:14.5px; line-height:1.7; color:var(--text);
+    background:#F7FAFD; border:1px solid var(--card-border);
+    border-radius:5px; padding:14px 16px;
+    white-space:pre-line;
+  }
+
+  @media (max-width:640px){
+    h1{ font-size:27px; }
+    .wrap{ padding:32px 18px 60px; }
+    .detail-card{ padding:22px; }
+  }
+
+  /* ---- warranty period table (일반 보증 전용) ---- */
+  .wt-group{ margin-bottom:22px; }
+  .wt-group:last-child{ margin-bottom:0; }
+  .wt-group-label{
+    font-size:14.5px; font-weight:700; margin-bottom:10px;
+  }
+  .wt-items{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    gap:10px;
+  }
+  .wt-item{
+    background:#F7FAFD;
+    border:1px solid var(--card-border);
+    border-radius:6px;
+    padding:14px 12px;
+    text-align:center;
+  }
+  .wt-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:18px; height:18px; border-radius:4px;
+    background:var(--gcolor, #1D3F94); color:#fff;
+    font-size:10.5px; font-weight:700; margin-bottom:6px;
+  }
+  .wt-title{ font-size:13px; font-weight:700; margin-bottom:6px; line-height:1.35; }
+  .wt-period{ font-size:14px; font-weight:800; color:#D6373C; margin-bottom:5px; }
+  .wt-desc{ font-size:11.5px; color:var(--text-muted); line-height:1.5; white-space:pre-line; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>목 차</h1>
+      <div class="subtitle">Contents</div>
+    </div>
+    <div class="brand">DEUTSCH<span>AUTOMOBILE GROUP</span></div>
+  </header>
+
+  <div class="crumbs" id="crumbs"></div>
+
+  <!-- 홈: 카테고리 그리드 -->
+  <section class="view active" id="view-home">
+    <div class="cat-grid" id="catGrid"></div>
+  </section>
+
+  <!-- 상세 -->
+  <section class="view" id="view-detail">
+    <button class="back-btn" id="backBtn">← 목차로</button>
+    <div class="detail-card" id="detailCard">
+      <div class="detail-badge-row">
+        <div class="detail-badge" id="dBadge"></div>
+        <div>
+          <div class="detail-title" id="dTitle"></div>
+          <div class="detail-tag" id="dTag"></div>
+        </div>
+      </div>
+
+      <div class="doc-box" id="docBox">
+        <div class="doc-box-text" id="docBoxText">문서/이미지 자리<br>image 필드에 이미지 URL을 입력하면 여기에 표시됩니다</div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">개요</div>
+        <div class="block-text" id="ovText"></div>
+      </div>
+
+      <div class="block" id="tableBlock" style="display:none;">
+        <div class="block-label">보증 기간</div>
+        <div id="wtGroups"></div>
+      </div>
+
+      <div class="block" id="scBlock">
+        <div class="block-label">적용 범위 / 대상</div>
+        <div class="block-text" id="scText"></div>
+      </div>
+      <div class="block" id="prBlock">
+        <div class="block-label">처리 절차</div>
+        <div class="block-text" id="prText"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ============================================================
+   TOPICS
+   ------------------------------------------------------------
+   실제 내용이 준비되면 아래 배열만 수정하세요. (코드 다른 곳은 건드릴 필요 없음)
+   각 항목 필드
+     code     : 번호 (01, 02 ...)
+     name     : 카테고리 이름
+     tag      : 상단 카드에 보이는 작은 라벨 (예: 스테이지1, Grey, Towing 등)
+     color    : 카드 강조색 (hex 코드)
+     image    : 관련 문서/사진 이미지 URL. 없으면 null로 두면 빈 박스가 표시됨
+     overview : "개요" 내용
+     scope    : "적용 범위 / 대상" 내용
+     process  : "처리 절차" 내용
+     warrantyTable (선택) : 일반 보증처럼 표 형태 보증기간을 보여줄 때만 사용.
+                            없으면 scope/process 텍스트 블록이 대신 표시됨.
+                            group(그룹명) > items[{num,title,period,desc,wide}] 구조
+                            wide:true 로 지정하면 그 항목이 가로로 2칸을 차지함(긴 제목용)
+   새 카테고리를 추가하려면 이 배열에 객체를 하나 더 추가하면 자동으로
+   그리드에 카드가 생깁니다. 순서를 바꾸려면 배열 순서를 바꾸면 됩니다.
+   ============================================================ */
+const TOPICS = [
+  { code:'01', name:'일반 보증',        tag:'스테이지 1',        color:'#1D3F94', image:null,
+    overview:'정상적인 관리 및 사용 조건에서 발생한 \'제조상의 결함\'에 대해 제조사가 무상으로 수리를 제공하는 제도',
+    scope:'', process:'',
+    warrantyTable:[
+      { group:'내연기관', groupColor:'#1D3F94', items:[
+        { num:1, title:'일반 보증', period:'2년 / 무제한', desc:'차체 및 일반 부품' },
+        { num:2, title:'파워트레인', period:'3년 / 60,000 km', desc:'엔진 및 동력전달 계통' },
+        { num:3, title:'배기가스 (일반)', period:'5년 / 80,000 km', desc:'배기가스 관련 부품' },
+        { num:4, title:'배기가스 (주요 부품)', period:'7년 / 120,000 km', desc:'DME, 촉매, DPF, SCR 등' },
+      ]},
+      { group:'전기차', groupColor:'#1C9B4B', items:[
+        { num:1, title:'차체 및 일반 부품', period:'2년 / 무제한', desc:'' },
+        { num:2, title:'동력전달장치 및 고전원전기장치', period:'5년 / 170,000 km', desc:'' },
+        { num:3, title:'고전압 배터리', period:'8년 / 160,000 km', desc:'' },
+      ]},
+    ]
+  },
+  { code:'02', name:'굿윌',             tag:'스테이지 2, 스테이지 3', color:'#0F9488', image:null, overview:'', scope:'', process:'' },
+  { code:'03', name:'직수입 차량',       tag:'Grey',              color:'#7C4DFF', image:null, overview:'', scope:'', process:'' },
+  { code:'04', name:'PDI',              tag:'스테이지 4',        color:'#E8590C', image:null, overview:'', scope:'', process:'' },
+  { code:'05', name:'파트 워런티',       tag:'Part Warranty',    color:'#E5484D', image:null, overview:'', scope:'', process:'' },
+  { code:'06', name:'보증 견인',         tag:'Towing',           color:'#C08A1D', image:null, overview:'', scope:'', process:'' },
+  { code:'07', name:'소모품 (BSI / MSI)', tag:'스테이지 7',       color:'#17A2C9', image:null, overview:'', scope:'', process:'' },
+  { code:'08', name:'통합 케어 상품 (WP / CP)', tag:'Total Care', color:'#22B14C', image:null, overview:'', scope:'', process:'' },
+  { code:'09', name:'TC',               tag:'Technical Campaign', color:'#27324A', image:null, overview:'', scope:'', process:'' },
+];
+
+const catGrid = document.getElementById('catGrid');
+const viewHome = document.getElementById('view-home');
+const viewDetail = document.getElementById('view-detail');
+const crumbs = document.getElementById('crumbs');
+
+function renderHome(){
+  catGrid.innerHTML = TOPICS.map((t,idx)=>`
+    <button class="cat-card" style="--accent:${t.color}" data-idx="${idx}">
+      <div class="cat-badge">${t.code}</div>
+      <div>
+        <div class="cat-name">${t.name}</div>
+        <div class="cat-tag">${t.tag}</div>
+      </div>
+    </button>
+  `).join('');
+  catGrid.querySelectorAll('.cat-card').forEach(btn=>{
+    btn.addEventListener('click', ()=> openDetail(Number(btn.dataset.idx)));
+  });
+  crumbs.innerHTML = `<span class="current">전체 목차</span>`;
+}
+
+function openDetail(idx){
+  const t = TOPICS[idx];
+  const detailCard = document.getElementById('detailCard');
+  detailCard.style.setProperty('--accent', t.color);
+
+  document.getElementById('dBadge').textContent = t.code;
+  document.getElementById('dBadge').style.background = t.color;
+  document.getElementById('dTitle').textContent = t.name;
+  document.getElementById('dTag').textContent = t.tag;
+
+  const docBox = document.getElementById('docBox');
+  const docBoxText = document.getElementById('docBoxText');
+  const oldImg = docBox.querySelector('img');
+  if(oldImg) oldImg.remove();
+  if(t.image){
+    docBoxText.style.display='none';
+    const img = document.createElement('img');
+    img.src = t.image;
+    img.alt = t.name;
+    docBox.appendChild(img);
+  }else{
+    docBoxText.style.display='block';
+  }
+
+  document.getElementById('ovText').textContent = t.overview && t.overview.trim() ? t.overview : `"${t.name}"에 대한 개요/정의를 이 자리에 입력하세요.`;
+
+  const tableBlock = document.getElementById('tableBlock');
+  const scBlock = document.getElementById('scBlock');
+  const prBlock = document.getElementById('prBlock');
+
+  if(t.warrantyTable && t.warrantyTable.length){
+    document.getElementById('wtGroups').innerHTML = t.warrantyTable.map(g => `
+      <div class="wt-group">
+        <div class="wt-group-label" style="color:${g.groupColor}">${g.group}</div>
+        <div class="wt-items">
+          ${g.items.map(it => `
+            <div class="wt-item" style="--gcolor:${g.groupColor}">
+              <div class="wt-num">${it.num}</div>
+              <div class="wt-title">${it.title}</div>
+              <div class="wt-period">${it.period}</div>
+              ${it.desc ? `<div class="wt-desc">${it.desc}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+    tableBlock.style.display = 'block';
+    scBlock.style.display = 'none';
+    prBlock.style.display = 'none';
+  }else{
+    tableBlock.style.display = 'none';
+    scBlock.style.display = 'block';
+    prBlock.style.display = 'block';
+    document.getElementById('scText').textContent = t.scope && t.scope.trim() ? t.scope : `적용 대상 차종, 조건, 예외 사항 등을 이 자리에 입력하세요.`;
+    document.getElementById('prText').textContent = t.process && t.process.trim() ? t.process : `실제 처리 절차/기준을 이 자리에 입력하세요.`;
+  }
+
+  crumbs.innerHTML = `<button id="crumbHome">전체 목차</button><span class="sep">/</span><span class="current">${t.name}</span>`;
+  document.getElementById('crumbHome').addEventListener('click', renderHome2);
+
+  viewHome.classList.remove('active');
+  viewDetail.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderHome2(){
+  viewDetail.classList.remove('active');
+  viewHome.classList.add('active');
+  renderHome();
+}
+
+document.getElementById('backBtn').addEventListener('click', renderHome2);
+
+renderHome();
+</script>
+</body>
+</html>
