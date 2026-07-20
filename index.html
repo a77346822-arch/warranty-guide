@@ -171,8 +171,8 @@
     border-radius:6px;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     gap:6px;
-    margin:22px auto;
-    width:50%;
+    margin:22px 0;
+    width:85%;
     overflow:hidden;
   }
   .doc-box img{ width:100%; height:100%; object-fit:contain; background:#fff; }
@@ -359,7 +359,7 @@
     h1{ font-size:27px; }
     .wrap{ padding:32px 18px 60px; }
     .detail-card{ padding:22px; }
-    .doc-box{ width:75%; }
+    .doc-box{ width:92%; }
   }
 
   /* ---- item detail (일반 보증 세부 항목 등) : 넓은 카드, 항목은 세로로 나열해서 각 줄이 한 줄에 들어가도록 ---- */
@@ -377,16 +377,17 @@
 
   .zoom-btn{
     display:none;
-    align-items:center; gap:9px;
+    align-items:center; gap:6px;
     margin-left:auto;
     background:#F3F7FC; border:1.5px solid var(--card-border);
-    border-radius:8px; padding:11px 20px;
+    border-radius:7px; padding:7px 14px;
     font-family:var(--sans); font-weight:700;
     color:#1D3F94; cursor:pointer; white-space:nowrap;
     transition:border-color .15s ease, background .15s ease, transform .15s ease;
   }
   .zoom-btn-icon{ display:inline-flex; align-items:center; justify-content:center; color:#1D3F94; }
-  .zoom-btn-text{ font-size:21px; line-height:1; }
+  .zoom-btn-icon svg{ width:16px; height:16px; }
+  .zoom-btn-text{ font-size:13.5px; line-height:1; }
   .zoom-btn:hover, .zoom-btn:focus-visible{
     border-color:#2251C7; background:#EAF1FB; transform:translateY(-1px);
   }
@@ -616,7 +617,7 @@
           <div class="detail-title" id="iTitle"></div>
           <div class="detail-tag" id="iTag"></div>
         </div>
-        <button class="zoom-btn" id="iZoomBtn" type="button" style="display:none;"><span class="zoom-btn-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8.2a2 2 0 0 1 2-2h1.9l.95-1.55A2 2 0 0 1 10.55 3.6h2.9a2 2 0 0 1 1.7 0.95L16.1 6.2H18a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8.2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/><circle cx="12" cy="13" r="3.3" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="zoom-btn-text">상세 이미지</span></button>
+        <button class="zoom-btn" id="iZoomBtn" type="button" style="display:none;"><span class="zoom-btn-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8.2a2 2 0 0 1 2-2h1.9l.95-1.55A2 2 0 0 1 10.55 3.6h2.9a2 2 0 0 1 1.7 0.95L16.1 6.2H18a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8.2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/><circle cx="12" cy="13" r="3.3" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="zoom-btn-text">참고 이미지</span></button>
       </div>
 
       <div class="doc-box" id="iDocBox">
@@ -631,7 +632,7 @@
 <div class="img-modal" id="imgModal">
   <button class="img-modal-close" id="imgModalClose" aria-label="닫기">✕</button>
   <img id="imgModalImg" src="" alt="">
-  <div class="img-modal-empty" id="imgModalEmpty" style="display:none;">상세 이미지 준비 중입니다</div>
+  <div class="img-modal-empty" id="imgModalEmpty" style="display:none;">참고 이미지 준비 중입니다</div>
 </div>
 
 <div class="info-modal" id="infoModal">
@@ -1079,7 +1080,7 @@ function openItemDetail(item, groupColor){
   const iZoomBtn = document.getElementById('iZoomBtn');
   if(item.detail){
     iZoomBtn.style.display = 'inline-flex';
-    iZoomBtn.onclick = () => openImgModal(item.detail.zoomImage, item.title + ' 상세 이미지');
+    iZoomBtn.onclick = () => openImgModal(item.detail.zoomImage, item.title + ' 참고 이미지');
   }else{
     iZoomBtn.style.display = 'none';
     iZoomBtn.onclick = null;
