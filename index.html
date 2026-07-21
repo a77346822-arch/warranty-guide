@@ -52,7 +52,8 @@
     align-items:flex-end;
     flex-wrap:wrap;
     gap:14px;
-    margin-bottom:34px;
+    margin:0 auto 34px;
+    max-width:732px;
   }
   .brand{
     font-family:var(--en);
@@ -63,7 +64,7 @@
   }
   .brand span{ display:block; font-size:10px; font-weight:500; letter-spacing:0.14em; color:var(--text-muted); margin-top:2px;}
   h1{
-    font-size:36px;
+    font-size:30px;
     font-weight:900;
     letter-spacing:0.05em;
   }
@@ -72,7 +73,7 @@
     font-style:italic;
     font-weight:600;
     color:#2251C7;
-    font-size:16px;
+    font-size:14px;
     margin-top:4px;
   }
 
@@ -80,8 +81,10 @@
     display:flex; align-items:center; gap:8px;
     font-size:13px; color:var(--text-muted);
     margin-bottom:20px; min-height:20px;
+    max-width:760px; margin-left:auto; margin-right:auto;
   }
   .crumbs:empty{ display:none; margin:0; min-height:0; }
+  .crumbs.w-item{ max-width:1040px; }
   .crumbs button{
     background:none; border:none; color:#2251C7; font-family:var(--sans);
     font-size:13px; cursor:pointer; text-decoration:underline; text-underline-offset:3px;
@@ -91,6 +94,8 @@
 
   .view{ display:none; }
   .view.active{ display:block; }
+  #view-detail.active{ max-width:760px; margin:0 auto; }
+  #view-item.active{ max-width:1040px; margin:0 auto; }
 
   /* ---- home grid ---- */
   .cat-grid{
@@ -102,8 +107,8 @@
   @media (max-width:820px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:560px){ .cat-grid{ grid-template-columns:1fr; } }
 
-  .home-parts-wrap{ display:flex; gap:100px; align-items:stretch; }
-  .home-part{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .home-parts-wrap{ display:flex; flex-direction:column; gap:70px; align-items:center; }
+  .home-part{ width:100%; max-width:732px; min-width:0; display:flex; flex-direction:column; }
   .home-part-title{
     font-size:15px; font-weight:700; color:#1D3F94; margin-bottom:16px;
     padding-bottom:10px;
@@ -589,7 +594,6 @@
       <h1>보증교육</h1>
       <div class="subtitle">Warranty Training</div>
     </div>
-    <div class="brand">DEUTSCH<span>AUTOMOBILE GROUP</span></div>
   </header>
 
   <div class="crumbs" id="crumbs"></div>
@@ -1129,6 +1133,7 @@ function openDetail(idx){
   }
   }
 
+  crumbs.classList.remove('w-item');
   crumbs.innerHTML = `<button id="crumbHome">전체 목차</button><span class="sep">/</span><span class="current">${t.name}</span>`;
   document.getElementById('crumbHome').addEventListener('click', renderHome2);
 
@@ -1199,6 +1204,7 @@ function openItemDetail(item, groupColor){
   `).join('');
 
   const topicName = TOPICS[currentTopicIdx] ? TOPICS[currentTopicIdx].name : '';
+  crumbs.classList.add('w-item');
   crumbs.innerHTML = `<button id="crumbHome">전체 목차</button><span class="sep">/</span><button id="crumbTopic">${topicName}</button><span class="sep">/</span><span class="current">${item.title}</span>`;
   document.getElementById('crumbHome').addEventListener('click', renderHome2);
   document.getElementById('crumbTopic').addEventListener('click', backToTopic);
